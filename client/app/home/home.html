@@ -1,3 +1,43 @@
+<form ng-submit='add()'>
+Insert a new URL to watch... <input type="text" name="url" ng-model="url" id="url" value="http://" onfocus="">
+<button type="submit">SUBMIT</button>
+</form>
+
+
+<div>{{html}}</div>
+
+
 <ui-view></ui-view>
 
-// [Feature] allowed for url submission in client and connection through to server with response
+<hr>
+
+<table class="gradienttable">
+  <thead>
+    <tr>
+      <th>URL</th>
+      <th>whatToWatch</th>
+      <th>pingRate</th>
+      <th>active</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>http://www.google.com</td>
+      <td>PAGE</td>
+      <td>15 min</td>
+      <td>true</td>
+    </tr>
+    <tr>
+      <td>http://www.mysupercoolblog.com</td>
+      <td>PAGE</td>
+      <td>5 min</td>
+      <td>{{ urls.length }}</td>
+    </tr>
+    <tr ng-repeat="watchurl in urls">
+      <td>{{ watchurl }}</td>
+      <td>PAGE</td>
+      <td>5 min</td>
+      <td>true</td>
+    </tr>
+  </tbody>
+</table>
