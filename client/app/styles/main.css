@@ -101,6 +101,7 @@ button {
     width: 9000px;
     height: 8000px;
 
+        animation: changeblur 3s linear infinite alternate;
 
   }
 
@@ -114,7 +115,8 @@ button {
     left: -20;
     right: 0;
 
-    animation: changeBlur 7s linear 7s infinite alternate;
+    animation: changeblur 7s linear infinite alternate,
+                nudge     7s linear infinite alternate;
     z-index: -50;
 
   }
@@ -134,24 +136,53 @@ button {
 
   }
 
+  #resize {
+    position: relative;
+    border: 3px solid red;
+    z-index: 10000;
+    top: 0;
+    left: 0;
+    width: 200px;
+    height: 100px;
+    float: left;
+  }
 
-  @keyframes changeBlur {
-      from {
-        -webkit-filter: blur(2px);
-        -moz-filter: blur(2px);
-        -o-filter: blur(2px);
-        -ms-filter: blur(2px);
-        filter: blur(2px);
-        top: 0px;
+  @keyframes changeblur {
+      0% {
+        -webkit-filter: blur(1px);
+        -moz-filter: blur(1px);
+        -o-filter: blur(1px);
+        -ms-filter: blur(1px);
+        filter: blur(1px);
       }
-      to {
-        -webkit-filter: blur(9px);
-        -moz-filter: blur(9px);
-        -o-filter: blur(9px);
-        -ms-filter: blur(9px);
-        filter: blur(9px);
-        top: 200px;
+      70% {
+        -webkit-filter: blur(3px);
+        -moz-filter: blur(3px);
+        -o-filter: blur(3px);
+        -ms-filter: blur(3px);
+        filter: blur(3px);
       }
+      100% {
+        -webkit-filter: blur(7px);
+        -moz-filter: blur(7px);
+        -o-filter: blur(7px);
+        -ms-filter: blur(7px);
+        filter: blur(7px);
+      }
+  }
+
+  @keyframes nudge {
+    0%, 100% {
+      transform: translate(0, 0);
+    }
+
+    50% {
+      transform: translate(150px, 0);
+    }
+
+    80% {
+      transform: translate(-150px, 0);
+    }
   }
 
 

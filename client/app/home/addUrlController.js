@@ -9,7 +9,7 @@ angular.module('app.home.addUrl', [ 'ui.router'])
      $http.post(loginUrl, {url: $scope.url })
        .success(function (data) {
          console.log(data);
-         $scope.html = 'newValues';
+         $('#resultimg').attr("src",data);
          $state.go('home.addUrl');
        });
  };

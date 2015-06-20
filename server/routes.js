@@ -12,7 +12,13 @@ var setup = function(app) {
 	app.route('/api/users/addUrl')
     .post(function(req, res, next) {
 			console.log(req.body.url);
-			res.send("you are crazy watching this url here: " + req.body.url);
+			var webshot = require('webshot');
+
+			webshot(req.body.url, '../client/theirSite.jpg', function(err) {
+				// screenshot now saved to google.png// screenshot now saved to hello_world.png
+				res.send('theirSite.jpg');
+
+			});
 		});
 }
 module.exports.setup = setup;

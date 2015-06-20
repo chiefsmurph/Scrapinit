@@ -1,6 +1,55 @@
 <form ng-submit='add()'>
+ Insert a Url to monitor
  <input type="text" name="url" ng-model="url" id="url" value="http://" onfocus="">
 <button type="submit">SUBMIT</button>
 </form>
 
-<div>{{html}}</div>
+<div ng-model="screenshot"></div>
+
+<div id="siteimage" style=""><div id='resize'></div><div style="background-image: url('/theirSite.jpg'); background-size: cover; width: 614px; height: 461px; border: 1px solid black" id="siteimg"></div></div>
+
+
+  <script>
+  $(document).ready(function() {
+    var startCoords = {};
+    var isDragging = false;
+
+    console.log('asda');
+    $("#siteimage").on("mousedown", function(e) {
+      console.log('down');
+      var posX = $(this).position().left,
+          posY = $(this).position().top;
+      startCoords.x = Math.ceil(e.pageX - posX);
+      startCoords.y = Math.ceil(e.pageY - posY);
+      console.log(startCoords);
+      isDragging = true;
+    });
+    console.log('again');
+    $("#siteimage").mouseup(function(e) {
+
+      isDragging = false;
+
+    });
+    $("#siteimage").mousemove(function(e) {
+      if (isDragging) {
+        var posX = $(this).position().left,
+            posY = $(this).position().top;
+        var coords = {
+          x: Math.ceil(e.pageX - posX),
+          y: Math.ceil(e.pageY - posY)
+        };
+        var boxTop = (startCoords.y < coords.y) ? startCoords.y : coords.y;
+        var boxLeft = (startCoords.x < coords.x) ? startCoords.x : coords.x;
+
+        var boxWidth = (startCoords.x < coords.x) ? coords.x-startCoords.x : startCoords.x-coords.x ;
+        var boxHeight = (startCoords.y < coords.y) ? coords.y-startCoords.y : startCoords.y-coords.y ;
+
+        $('#resize').css('top', boxTop + 'px');
+        $('#resize').css('left', boxLeft + 'px');
+        $('#resize').css('width', boxWidth + 'px');
+        $('#resize').css('height', boxHeight + 'px');
+        console.log('width: '+ (coords.x-startCoords.x) + ' and isdragging: ' + isDragging)
+      }
+    });
+  })
+  </script>
