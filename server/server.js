@@ -27,9 +27,19 @@ app.use(function (req, res, next) {
   next();
 });
 
+// app.use(function (req, res, next) {
+// 	var isLoggedIn = !!req.session.email;
+// 	if (isLoggedIn && req.url.indexOf('login') === -1) {
+// 		res.redirect('/#/login');
+// 		console.log('redirect' + JSON.stringify(req.body));
+// 	} else {
+// 		next();
+// 	}
+// });
 
 //serves the client
 app.use(express.static(__dirname + '/../client/'));
+
 // Initialize passport and passport session
 // passport session invocation must be after the express sessions declaration as it is going to piggyback on that
 // app.use(passport.initialize());
@@ -38,9 +48,6 @@ app.use(express.static(__dirname + '/../client/'));
 //allows cors
 app.use(cors());
 
-app.get('*', function(req, res) {
-	res.send('what ? 404', 200);
-});
 
 //start server functions and export
 var initServer = function() {
@@ -48,6 +55,7 @@ var initServer = function() {
 	//console.log(app);
 	routes.setup(app);
 	//if deployed to heroku will use heroku port, otherwise on local machine will use port 3000
+
 	var port = process.env.port || 3000;
 	var server = app.listen(port);
 	//layers socket.io ontop of the express server

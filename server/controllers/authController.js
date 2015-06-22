@@ -34,5 +34,17 @@ module.exports = {
     .catch(function (err) {
       res.status(403).json({message: err.message});
     });
+  },
+
+  checkUser: function(req, res, next) {
+
+    var isLoggedIn = !!req.session.email;
+    res.send(isLoggedIn);
+  },
+
+  logout: function(req, res, next) {
+    req.session.email = null;
+    res.send('Logout successful');
   }
+
 };
