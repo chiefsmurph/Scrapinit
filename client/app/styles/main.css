@@ -6,31 +6,72 @@ body {
 #container {
   text-align: center;
   width: 700px;
-  margin: 10% auto 120px;
+  margin: 150px auto 60px;
   border: 0px solid black;
   border-radius: 24px;
   -moz-border-radius: 24px;
   -webkit-border-radius: 24px;
-  padding: 50px;
+  padding: 5px 50px;
   background-color: rgba(255,255,255,0.4);
   background-image: url('/app/images/crossword.png');
   z-index: 200;
-
+}
+#scrapeyimg {
+  width: 800px;
+  height: 200px;
+  z-index: 2000;
+  position: absolute;
+  top: 00px;
+  left: 212px;
+  margin: 0 auto;
+}
+#headerbg {
+  width: 100%;
+  height: 130px;
+  z-index: -50;
+  background-image: url('/app/images/headerbg.jpg');
+  position: absolute;
+  top: 0;
+  left: 0;
+  text-align: center;
+  background-size: cover;
+  opacity: 0.6;
 }
 h1 {
-  font-size: 450%;
-  margin: 0;
-  text-align: center;
+
+  z-index: 1020;
+  font-size: 80px;
+  letter-spacing: 0px;
+  /* WebKit (Safari/Chrome) Only */
+  -webkit-text-stroke: 1px black;
+
+  /* If we weren't using text-shadow, we'd set a fallback color
+     and use this to set color instead
+    -webkit-text-fill-color: white; */
+    opacity: 1;
+  color: white;
+
+  text-shadow:
+    3px 3px 0 #000,
+    /* Simulated effect for Firefox and Opera
+       and nice enhancement for WebKit */
+   -1px -1px 0 #000,
+    1px -1px 0 #000,
+   -1px  1px 0 #000,
+    1px  1px 0 #000;
+
+    line-height: 1;
+    font-family: monospace;
+    border-bottom: 3px solid navy;
+    white-space: nowrap;
+    margin-top: -15px;
 }
 h2:hover {
   color: #a73f2d;
 }
-inpsut {
-  line-height: 1;
-  font-size: 30px;
-  text-align: center;
-  display: block;
-  margin: 10px auto;
+input {
+
+  margin: 0 0 0 10px;
   color: #696969;
   letter-spacing: 2px;
   font-family: 'Archivo Narrow';
@@ -81,9 +122,9 @@ button {
     top:1px;
   }
   p {
-    margin: 0;
+    margin: 10px 0 20px;
     text-align: center;
-    font-size: 100%;
+    font-size: 130%;
   }
 
 
@@ -100,7 +141,7 @@ button {
     background-image: url('/app/images/almacon_2012_background_by_sakurirainne.png');
     width: 9000px;
     height: 8000px;
-
+    animation: changeBlur 5s linear 5s infinite alternate;
 
   }
 
@@ -114,7 +155,8 @@ button {
     left: -20;
     right: 0;
 
-    animation: changeBlur 7s linear 7s infinite alternate;
+    animation: changeBlur 7s linear 7s infinite alternate,
+                changePos 7s linear 7s infinite alternate;
     z-index: -50;
 
   }
@@ -142,7 +184,6 @@ button {
         -o-filter: blur(2px);
         -ms-filter: blur(2px);
         filter: blur(2px);
-        top: 0px;
       }
       to {
         -webkit-filter: blur(9px);
@@ -150,9 +191,18 @@ button {
         -o-filter: blur(9px);
         -ms-filter: blur(9px);
         filter: blur(9px);
-        top: 200px;
       }
   }
+
+    @keyframes changePos {
+        from {
+          top: 0px;
+        }
+        to {
+          top: 10px
+        }
+    }
+
 
 
 
@@ -242,7 +292,7 @@ button {
     float: right;
     -moz-border-radius: 7px;
     -webkit-border-radius: 7px;
-    border-radius: 7px; 
+    border-radius: 7px;
     -khtml-border-radius: 7px; /* for old Konqueror browsers */
 
 }
@@ -251,14 +301,14 @@ button {
     margin-left: 5px;
     -moz-border-radius: 7px;
     -webkit-border-radius: 7px;
-    border-radius: 7px; 
+    border-radius: 7px;
     -khtml-border-radius: 7px; /* for old Konqueror browsers */
 }
 
 #login-button {
     -moz-border-radius: 7px;
     -webkit-border-radius: 7px;
-    border-radius: 7px; 
+    border-radius: 7px;
     -khtml-border-radius: 7px; /* for old Konqueror browsers */
 }
 
@@ -267,7 +317,7 @@ button {
   height: 33px;
   -moz-border-radius: 7px;
   -webkit-border-radius: 7px;
-  border-radius: 7px; 
+  border-radius: 7px;
   -khtml-border-radius: 7px; /* for old Konqueror browsers */
 }
 
@@ -321,4 +371,3 @@ button {
   	border-left: 1px solid #fcfdec;;
   	border-right:0px;
   }
-
