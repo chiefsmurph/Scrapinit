@@ -22,7 +22,7 @@ angular.module('app.home', ['app.home.addUrl', 'app.home.results', 'ui.router'])
       $scope.loading = true;
 
       //  console.log($scope.urls);
-       $http.post('/api/users/retrieve_url', {url: $scope.url })
+       $http.post('/api/users/url', {url: $scope.url })
          .success(function (data) {
 
             if (data !== 'error') {

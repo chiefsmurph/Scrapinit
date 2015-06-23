@@ -22,6 +22,16 @@ var setup = function(app) {
   app.route('/api/users/list_urls')
     .get(authController.isAuth, urlController.getList);
 
+  app.route('/api/users/getListOfUrls')
+    .get(authController.isAuth, function(req, res, next) {
+      urlController.getListOfUrls(req, res, next);
+    });
+
+
+
+  app.route('/api/users/geturls')
+    .get(authController.isAuth, urlController.getList);
+
   // // Feature return the html from the page
   app.route('/api/users/retrieve_url')
     .post(function(req, res, next) {
@@ -29,6 +39,8 @@ var setup = function(app) {
         res.send(html);
       });
     });
+
+    // app.post('/api/users/retrieve_url', urlController.getExternalUrl);
 
   app.route('/api/users/checkUser')
     .get(authController.checkUser);
