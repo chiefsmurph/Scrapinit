@@ -39,26 +39,16 @@ var setup = function(app) {
       // }
     });
 
-  app.route("/api/screenshot")
-    .get(authController.isAuth, function(req, res, next){
-      // if(SuccessfullyRetrievedImageFromInternet){
-      //   res.status(200).json({img:img});
-      // } else if(errorRetrievingWebImage){
-      //   res.status(404);
-      // }
-    });
-
-
   app.route("/api/users/list")
     .get(authController.isAuth, urlController.getList);
 
-  app.route('/api/getScreenshot')
-     .get(function(req, res, next) {
+  app.route('/api/screenshot')
+     .get(authController.isAuth, function(req, res, next) {
           basicScraper.getScreenshot(req.body.url, req.session.id, function(imgpath) {
             res.send();
           });
   	 });
-     
+
   app.get('*', function(req, res) {
 		res.send('what ? 404', 404);
 	});
