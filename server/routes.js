@@ -1,6 +1,8 @@
 //add Controllers to handle the routes
 var authController = require('./controllers/authController');
 var urlController = require('./controllers/urlController');
+var basicScraper = require('./basicScraperController');
+
 var webshot = require('webshot');
 
 var setup = function(app) {
@@ -18,7 +20,7 @@ var setup = function(app) {
 //Protected Routes
   app.route("/api/users/logout")
     .get(authController.isAuth, authController.logout);
-    
+
   app.route("/api/users/url")
     .post(authController.isAuth, function(req, res, next){
       // if(UserURlCreated){
@@ -50,7 +52,13 @@ var setup = function(app) {
   app.route("/api/users/list")
     .get(authController.isAuth, urlController.getList);
 
-
+  app.route('/api/getScreenshot')
+     .get(function(req, res, next) {
+          basicScraper.getScreenshot(req.body.url, req.session.id, function(imgpath) {
+            res.send();
+          });
+  	 });
+     
   app.get('*', function(req, res) {
 		res.send('what ? 404', 404);
 	});
