@@ -16,13 +16,13 @@ mandrill_client = new mandrill.Mandrill(secret.mandrill.client_id);
 // var schedule = '*/30 * * * * *';
 var schedule = '*/5 * * * * *';
 
-//To run every 3 seconds do */3; every 5 min do * */5 *
+// To run every 3 seconds do */3; every 5 min do * */5 *
 
 var cronjob = new CronJob(schedule, function() {
   console.log('You will see this message every 5 min');
   // check database for jobs assigned for cronjob
 
-  // get urls 
+  // get urls
   db.User.findAll()
     .then(function(allUsers) {
       for (var i = 0; i < allUsers.length; i++){
@@ -49,7 +49,7 @@ var cronjob = new CronJob(schedule, function() {
                   }
                 }
               });
-              
+
             }
           })
       }

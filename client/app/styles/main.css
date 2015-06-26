@@ -298,6 +298,7 @@ button {
   	background: -ms-linear-gradient(top,  #d5e3e4 0%,#ccdee0 40%,#b3c8cc 100%);
   	background: linear-gradient(to bottom,  #d5e3e4 0%,#ccdee0 40%,#b3c8cc 100%);
   	border: 1px solid #999999;
+    font-size: 225%;
   }
   table.gradienttable td {
   	padding: 0px;
@@ -310,6 +311,9 @@ button {
   	background: -ms-linear-gradient(top,  #ebecda 0%,#e0e0c6 40%,#ceceb7 100%);
   	background: linear-gradient(to bottom,  #ebecda 0%,#e0e0c6 40%,#ceceb7 100%);
   	border: 1px solid #999999;
+    text-align: center;
+    font-size: 175%;
+    height: 60px;
   }
   table.gradienttable th td{
   	margin:0px;
