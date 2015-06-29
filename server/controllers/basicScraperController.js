@@ -1,10 +1,10 @@
 var request = require('request');
 var validator = require('validator');
-var webshot = require('webshot');
 var easyimg = require('easyimage');
 var gm = require('gm').subClass({ imageMagick: true });
-
 var nodecr = require('nodecr');
+
+var utils = require('../utils/scrape.js');
 
 var validProtocols = {
   'http': 'true',
@@ -12,11 +12,10 @@ var validProtocols = {
 }
 
 module.exports = {
-  getScreenshot: function(url, userId, cb) {
-
-    console.log('userId in getscreenshot ' + userId);
+  getScreenshot: function(url, userId, email, cb) {
 
     var urlWithoutHTTP = url.substring(url.indexOf("://") + 3)  // handle http AND https protocols
+    var namePreview = '';
     urlWithoutHTTP = urlWithoutHTTP.replace(/[?/.=]/g, '_');    // change weird characters to underscore
 
     webshot(url, '../client/assets/' + userId + '/' + urlWithoutHTTP + '-preview.jpg',
@@ -49,66 +48,24 @@ module.exports = {
             cb('error');
           }
       });
-  },
-  gethighdef: function(url, userId, cb) {
-    //
-    // var webPage = require('webpage');
-    // var page = webPage.create();
-    //
-    // page.open(url, function (status) {
-    //     if (status !== 'success') {
-    //         console.log('Unable to load BBC!');
-    //         phantom.exit();
-    //     } else {
-    //         window.setTimeout(function () {
-    //             page.viewportSize = { width: 1600, height: 800 };
-    //             page.zoomFactor = 300.0/72.0;
-    //             page.render('../client/assets/' + userId + '/' + urlWithoutHTTP + '-preview.jpg');
-    //             phantom.exit();
-    //             cb('assets/' + userId + '/' + urlWithoutHTTP + '-preview.jpg');
-    //         }, 2000);
-    //     }
+
+
+    // namePreview = urlWithoutHTTP + '-preview.jpg'
+    // utils.scrapeFullImage(url, namePreview, userId, function (err, path) {
+    //   if (err === 'success') {
+    //     cb(path, email);
+    //   }
     // });
-    //
 
-
-    var phantom = require('phantom');
-
-    var urlWithoutHTTP = url.substring(url.indexOf("://") + 3)  // handle http AND https protocols
-    urlWithoutHTTP = urlWithoutHTTP.replace(/[?/.=]/g, '_');    // change weird characters to underscore
-
-
-    phantom.create(function (ph) {
-      ph.createPage(function (page) {
-        //page.zoomFactor = 2;
-        page.viewportSize = {
-          width: 1024,
-          height: 768
-        };
-        page.open(url, function (status) {
-
-            console.log('status: ' + status);
-              setTimeout(function () {
-                  page.render('../client/assets/' + userId + '/' + urlWithoutHTTP + '-preview.jpg');
-                  setTimeout(function() {
-                    cb('assets/' + userId + '/' + urlWithoutHTTP + '-preview.jpg')
-                  }, 1200);
-
-              }, 2000);
-
-        });
-      });
-    });
 
   },
-  cropImg: function(url, crop, compare, cb) {
-
+  cropImg: function(url, crop, compare, email, cb) {
     var filepath = url.substr(0, url.length - 12) + ((compare) ? '-compare.jpg' : '.jpg');
 
      gm('../client/' + url).crop(crop.w, crop.h, crop.x, crop.y)
       .write('../client/' + filepath, function(err){
         if (err) return console.dir(arguments)
-        cb(filepath, crop);
+        cb(filepath, crop, email);
       });
 
   },

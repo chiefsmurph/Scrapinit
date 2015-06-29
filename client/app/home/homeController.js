@@ -6,7 +6,7 @@ angular.module('app.home', ['app.home.addUrl', 'app.home.results', 'ui.router', 
    $scope.urls = [];
    $scope.loading = false;
    console.log($scope.urls);
-
+   $scope.urlImagePreview = '';
 
    $scope.logout = function() {
      $http.get("/api/users/logout")
@@ -45,14 +45,11 @@ angular.module('app.home', ['app.home.addUrl', 'app.home.results', 'ui.router', 
            $('#imgview').html(img);
            $('#imgview').fadeIn(100);
 
-           var selectedCrop = function(c) {
 
-             console.log('b4 ' + JSON.stringify(c));
+           var selectedCrop = function(c) {
              for (key in c) {
                c[key] = c[key] * 2;
              }
-             console.log('after ' + JSON.stringify(c));
-
              $('#imgview').fadeOut(800);
              $http.post('/api/users/url', {crop: c, urlImg: data, url: $scope.url})
                 .success(function (data) {

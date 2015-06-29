@@ -3,7 +3,6 @@ var authController = require('./controllers/authController');
 var urlController = require('./controllers/urlController');
 var basicScraper = require('./controllers/basicScraperController');
 
-
 var webshot = require('webshot');
 var url = require('url');
 
@@ -24,20 +23,13 @@ var setup = function(app) {
     .get(authController.isAuth, authController.logout);
 
   app.route('/api/users/url')
-    .post(authController.isAuth, function(req, res, next) {
-      console.log('url route');
-      urlController.addUrl(req, res, next);
-    });
+    .post(authController.isAuth,
+      urlController.checkParametersAddUrl,
+      urlController.addUrl
+    );
 
   app.route("/api/users/url/:idUrl")
     .get(authController.isAuth, urlController.getUrl);
-
-  app.route("/api/ocrwork")
-    .get(function(req, res, next) {
-
-
-
-    });
 
   app.route('/api/users/removeUrl')
     .post(authController.isAuth, function(req, res, next) {
@@ -48,24 +40,14 @@ var setup = function(app) {
         var url_parts = url.parse(req.url, true);
         var query = url_parts.query;
 
-        console.log('userId in routes.js screenshot ' + req.session.user_id);
-        basicScraper.getScreenshot(query.url, req.session.user_id, function(imgpath) {
+        basicScraper.getScreenshot(query.url, req.session.user_id, req.session.email, function(imgpath) {
           if (imgpath !== 'error') {
             res.status(200).send(imgpath);
           } else {
             res.status(500);
           }
         });
-  });
 
-  app.get('/api/gethighdef', authController.isAuth, function(req, res, next) {
-        var url_parts = url.parse(req.url, true);
-        var query = url_parts.query;
-
-        console.log('userId in routes.js screenshot ' + req.session.user_id);
-        basicScraper.gethighdef(query.url, req.session.user_id, function(imgpath) {
-          res.send(imgpath);
-        });
   });
 
   app.route('/api/users/list')
