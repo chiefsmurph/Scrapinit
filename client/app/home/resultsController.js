@@ -15,4 +15,14 @@ angular.module('app.home.results', [])
 
   $scope.getUrls();
 
+  $scope.remove = function(url) {
+    console.log('remove url: ' + url);
+    Url.removeUrl(url, function(success) {
+      if (success) {
+        console.log('SUCCESS!');
+        $scope.removeUrl(url);
+      }
+    });
+  }
+
 });

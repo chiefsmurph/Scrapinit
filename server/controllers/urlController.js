@@ -33,7 +33,6 @@ module.exports = {
     var url = {url: req.body.url};
     console.log('req body', JSON.stringify(req.body));
     console.log('url up top ' + JSON.stringify(url));
-    var that = this;
     var selector = 'body';
 
     db.User.findOne({
@@ -66,7 +65,6 @@ module.exports = {
               console.log('***** urlImg',req.body.urlImg )
               if (urlFound) {
 
-
                  console.log('loggin it yo', JSON.stringify(crop));
                  console.log('urlfound: '+ urlFound);
 
@@ -79,6 +77,8 @@ module.exports = {
                     webImage: text
                  })
                  .then(function(associate) {
+
+
                    res.status(201).json({ cropImage: cropImg, text: text });
 
                  });
@@ -163,6 +163,41 @@ module.exports = {
         res.status(403).json({error: 'You dont have permissions in this URL'});
       }
     });
+  },
+
+  removeUrl: function(req, res, next) {
+    var email = req.session.email;
+    var url = {url: req.body.url};
+
+    db.User.findOne({
+      where: {
+        email: email
+      }
+    })
+    .then(function (userFound) {
+
+      if (userFound) {
+
+        db.Url.findOne({
+          where: url
+        })
+        .then(function(urlFound) {
+          if (urlFound) {
+
+            //cronJob.deleteCron(userFound.id, urlFound.id);
+            userFound.removeUrl(urlFound);
+            res.status(200).json({});
+
+          } else {
+
+            res.status(403).json({});
+
+          } // end urlFound
+        }); // end url.findOne then
+
+      } // end if userFound
+    }); // end user.findOne then
+
   },
 
   getListOfUrls: function(req, res, next){

@@ -16,6 +16,16 @@ angular.module('app.home', ['app.home.addUrl', 'app.home.results', 'ui.router', 
    };
 
 
+  $scope.removeUrl = function(url) {
+    for (var i = 0; i < $scope.urls.length; i++) {
+      if ($scope.urls[i].url === url) {
+        $scope.urls.splice(i, 1);
+        break;
+      }
+    }
+  }
+
+
   $scope.setUrls = function(urlsObject){
     $scope.urls = urlsObject;
   };
@@ -31,11 +41,18 @@ angular.module('app.home', ['app.home.addUrl', 'app.home.results', 'ui.router', 
 
             console.log('received response from server: ' + data);
 
-           var img = $("<img src='" + data + "' />");
+           var img = $("<img src='" + data + "' style='width: 1024px' />");
            $('#imgview').html(img);
            $('#imgview').fadeIn(100);
 
            var selectedCrop = function(c) {
+
+             console.log('b4 ' + JSON.stringify(c));
+             for (key in c) {
+               c[key] = c[key] * 2;
+             }
+             console.log('after ' + JSON.stringify(c));
+
              $('#imgview').fadeOut(800);
              $http.post('/api/users/url', {crop: c, urlImg: data, url: $scope.url})
                 .success(function (data) {
@@ -62,7 +79,10 @@ angular.module('app.home', ['app.home.addUrl', 'app.home.results', 'ui.router', 
                     //$scope.urls.push({url: $scope.url, img: data.cropImage});
                   }
                   $scope.loading = false;
-                })
+                })  // end http post success
+                .error(function(err) {
+                    console.log('error loading url');
+                });
            };
 
          	 img.Jcrop({
@@ -115,8 +135,20 @@ angular.module('app.home', ['app.home.addUrl', 'app.home.results', 'ui.router', 
     });
   };
 
+  var removeUrl = function(url, callback) {
+    $http.post('/api/users/removeUrl', {url: url})
+       .success(function (data) {
+         console.log('SUCCESS REMOVAL');
+         callback(true);
+       })
+       .error(function(err) {
+         callback(false);
+       });
+  }
+
   return {
-    getUrls: getUrls
+    getUrls: getUrls,
+    removeUrl: removeUrl
   }
 
 });
