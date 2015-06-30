@@ -45,8 +45,8 @@ module.exports = {
         }
 
         // get the server to render the page with params coordinates
-        basicScraper.getScreenshot(website, UserUrl.user_id, function(img1, email) {
-          basicScraper.cropImg(img1, params, true, function(newImg) {
+        basicScraper.getScreenshot(website, UserUrl.user_id, UserUrl.email, function(img1, email) {
+          basicScraper.cropImg(img1, params, true, email, function(newImg) {
             console.log('old image path', oldImg);
             console.log('new image path', newImg);
 
@@ -73,7 +73,7 @@ module.exports = {
                         console.log(error);
                     }else{
                         console.log('Message sent: ' + info.response);
-                    } //  else statemenet  
+                    } //  else statemenet
                 }); //  transporter.sendMail(mailOptions, function(error, info){
               }; // if (!equal){
             }) // compare(img1, img2, function (equal){
@@ -89,8 +89,8 @@ module.exports = {
     manager.stop(key);
   },
 
-  deleteCron: function(userUrl) {
-    var key = UserUrl.url_id.toString() + UserUrl.user_id.toString();
+  deleteCron: function(user_id, url_id) {
+    var key = url_id.toString() + user_id.toString();
     console.log('Deleting cronJob', key);
     manager.stop(key);
   },
@@ -111,8 +111,8 @@ var compareFunc = {
         }
 
         // get the server to render the page with params coordinates
-        basicScraper.getScreenshot(website, UserUrl.user_id, function(img1, email) {
-          basicScraper.cropImg(img1, params, true, function(newImg) {
+        basicScraper.getScreenshot(website, UserUrl.user_id, UserUrl.email, function(img1, email) {
+          basicScraper.cropImg(img1, params, true, email, function(newImg) {
             console.log('old image path', oldImg);
             console.log('new image path', newImg);
 
@@ -139,7 +139,7 @@ var compareFunc = {
                 //         console.log(error);
                 //     }else{
                 //         console.log('Message sent: ' + info.response);
-                //     } //  else statemenet  
+                //     } //  else statemenet
                 // }); //  transporter.sendMail(mailOptions, function(error, info){
               }; // if (!equal){
             }) // compare(img1, img2, function (equal){

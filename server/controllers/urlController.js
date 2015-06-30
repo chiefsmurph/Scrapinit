@@ -1,5 +1,5 @@
 var basicScraper = require('./basicScraperController');
-var cronjob = require('./cronController').addCron;
+var cronjob = require('./cronController');
 var db = require("../db");
 
 
@@ -78,7 +78,7 @@ module.exports = {
                  console.log('urlfound: '+ urlFound);
 
                  userFound.addUrl(urlFound, {
-                    email: userFound.email,
+                    email: email,
                     cropImage: cropImg,
                     cropHeight: crop.h,
                     cropWidth: crop.w,
@@ -104,7 +104,7 @@ module.exports = {
                    }).then(function (userUrl){
 
                      console.log('sending ' + userUrl.url + ' to cronjob');
-                     cronjob(userUrl.UserUrls[0], userUrl.url);
+                     cronjob.addCron(userUrl.UserUrls[0], userUrl.url);
                      res.status(201).json({ cropImage: cropImg, text: text });
 
                    }); // end url findone then
@@ -125,7 +125,7 @@ module.exports = {
                   .then(function (urlCreated) {
 
                     userFound.addUrl(urlCreated, {
-                       email: userFound.email,
+                       email: email,
                        ocrText: text,
                        cropImage: cropImg,
                        cropHeight: crop.h,
@@ -137,7 +137,7 @@ module.exports = {
 
                       db.Url.findOne({
                         where: {
-                          id: urlFound.id
+                          id: urlCreated.id
                         },
                         include: [
                           {
@@ -150,7 +150,7 @@ module.exports = {
                       }).then(function (userUrl){
 
                         console.log('sending ' + userUrl.url + ' to cronjob');
-                        cronjob(userUrl.UserUrls[0], userUrl.url);
+                        cronjob.addCron(userUrl.UserUrls[0], userUrl.url);
 
                         //console.log('associate datavalues  ', JSON.stringify(associate[0][0].dataValues));
                         res.status(201).json({cropImage: userUrl.UserUrls[0].cropImage, text: text });
@@ -158,6 +158,7 @@ module.exports = {
                       .catch(function (err) {
                         res.status(403).json({message: err.message});
                       }); // close catch of userurl db call
+
                     })  // close then of addurl url db call
                     .catch(function (err) {
                       res.status(403).json({message: err.message});
@@ -224,7 +225,8 @@ module.exports = {
         .then(function(urlFound) {
           if (urlFound) {
 
-            //cronJob.deleteCron(userFound.id, urlFound.id);
+            console.log('del cron', cronjob.deleteCron);
+            cronjob.deleteCron(userFound.id, urlFound.id);
             userFound.removeUrl(urlFound);
             res.status(200).json({});
 

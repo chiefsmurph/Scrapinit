@@ -1,5 +1,6 @@
 var request = require('request');
 var validator = require('validator');
+var webshot = require('webshot');
 var easyimg = require('easyimage');
 var gm = require('gm').subClass({ imageMagick: true });
 var nodecr = require('nodecr');

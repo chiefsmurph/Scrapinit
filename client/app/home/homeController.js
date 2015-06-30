@@ -100,13 +100,13 @@ angular.module('app.home', ['app.home.addUrl', 'app.home.results', 'ui.router', 
 
          //   });
 
-  Url.getUrls(function(err, urls){
-    if (err) {
-      $scope.error = 'We can´t retrieve the URLS';
-    }else {
-      $scope.setUrls(urls);
-    }
-  });
+  // Url.getUrls(function(err, urls){
+  //   if (err) {
+  //     $scope.error = 'We can´t retrieve the URLS';
+  //   }else {
+  //     $scope.setUrls(urls);
+  //   }
+  // });
 };
    console.log('going to results');
   $state.go('home.results');
@@ -123,7 +123,7 @@ angular.module('app.home', ['app.home.addUrl', 'app.home.results', 'ui.router', 
       var urlArray = data.urls;
       console.log('data - ', data);
       for (var i = 0; i < urlArray.length; i++) {
-        urls.push({url: urlArray[i].url, img: urlArray[i].UserUrl.cropImage, text: urlArray[i].UserUrl.webImage});
+        urls.push({url: urlArray[i].url, img: urlArray[i].UserUrl.cropImage, text: urlArray[i].UserUrl.ocrText});
       }
       callback(false, urls);
     })
